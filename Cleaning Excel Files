@@ -1,0 +1,52 @@
+library(tidyverse)
+library(dplyr)
+#Read the Excel files
+Myfile <- read.csv ('C://Users/Michael/Documents/GBVFILES1.csv', na.strings=c(""," ","NA"))
+Myfile2 <- read.csv ('C://Users/Michael/Documents/GBVFILES2.csv', na.strings=c(""," ","NA"))
+# Replacing empty spaces with NA
+Myfile[Myfile==" "]<- NA
+Myfile
+Myfile2[Myfile2==" "]<- NA
+Myfile2
+# Removing duplicate values from the 2 files
+duplicated.data.frame(Myfile)
+index <- which(duplicated.data.frame(Myfile))
+Myfile[-index,]
+Myfile[!duplicated(Myfile), ]
+duplicated.data.frame(Myfile2)
+index <- which(duplicated.data.frame(Myfile2))
+Myfile2[-index,]
+Myfile2[!duplicated(Myfile2), ]
+list_na <- colnames(Myfile)[ apply(Myfile, 2, anyNA) ]
+list_na
+list_na2 <- colnames(Myfile2)[ apply(Myfile2, 2, anyNA) ]
+list_na2
+Myfile[is.na(Myfile)] = 0
+Myfile2[is.na(Myfile2)] = 0
+# Exclude the missing observations
+list_na_drop <- Myfile %>%
+  na.omit()     
+dim(list_na_drop)
+list_na_drop2 <- Myfile2 %>%
+  na.omit()     
+dim(list_na_drop2)
+# Checking variable names and types
+glimpse(Myfile)
+glimpse(Myfile2)
+# Identifying the Observations and variables
+str(Myfile)
+str(Myfile2)
+# Checking for missing values
+is.na.data.frame(Myfile)
+is.na.data.frame(Myfile2)
+# Identifying distinct values
+distinct(Myfile)
+distinct(Myfile2)
+summarise (Myfile)
+summarise(Myfile2)
+# Detect files beginning with % sign 
+NW <- grepl("^%",Myfile)
+NW2 <- grepl("^%",Myfile2)
+# And removing them
+(Rem <- Myfile[!NW])
+(Rem1 <- Myfile2 [!NW2])
